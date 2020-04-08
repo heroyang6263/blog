@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap Blog - B4 Template by Bootstrap Temple</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom icon font-->
+    <link rel="stylesheet" href="css/fontastic.css">
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Fancybox-->
+    <link rel="stylesheet" href="vendor/@fancyapps/fancybox/jquery.fancybox.min.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="favicon.png">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/">风吟博客</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+              <li class="nav-item">
+                <a class="nav-link" href="/">主页</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/blog">博客</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="post.html">关于</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="请输入你想找的博客" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+            </form>
+          </div>
+        </div>
+
+      </nav>
+    </header>
+    <!-- Hero Section-->
+    <section style="background: url(img/hero.jpg); background-size: cover; background-position: center center" class="hero">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <h1>欢迎来到风吟博客</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Intro Section-->
+    <section class="intro">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <header> 
+              <h2>最受欢迎的博客</h2>
+              <p class="text-gray">点击量最高的博客在这里</p>
+            </header>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="featured-posts no-padding-top">
+      <div class="container">
+        <!-- Post-->
+        <div class="row d-flex align-items-stretch" th:each="article:${articlesByView}">
+          <div class="text col-lg-7">
+            <div class="text-inner d-flex align-items-center">
+              <div class="content" >
+                <header class="post-header">
+                  <a th:href="@{'/content/'+${article.getId()}}"><h2 class="h4" th:text="${article.getArticleTitle()}"></h2></a>
+                </header>
+                <p th:text="${article.getArticleSummary()}"></p>
+                <footer class="post-footer d-flex align-items-center">
+                  <div class="date"> 发布时间：<span th:text="${#dates.format(article.getArticlePutTime(), 'yyyy/MM/dd HH:mm')}"></span></div>
+                  <div class="comments">阅读量：<span th:text="${article.getArticleViewCount()}"></span></div>
+                </footer>
+              </div>
+            </div>
+          </div>
+          <div class="image col-lg-5"><img src="img/featured-pic-1.jpeg" alt="..."></div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Divider Section-->
+    <section style="background: url(img/divider-bg.jpg); background-size: cover; background-position: center bottom" class="divider">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h2>心怀理想去看更加美丽的世界</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Latest Posts -->
+    <section class="latest-posts"> 
+      <div class="container">
+        <header> 
+          <h2>最新博客</h2>
+          <p class="text-gray">这里是最新发布的博客</p>
+        </header>
+        <div class="row">
+          <!-- 博客 -->
+          <div class="post col-md-4" th:each="article:${articlesByTime}">
+            <div class="post-thumbnail"><a href="post.html"><img src="img/blog-3.jpg" alt="..." class="img-fluid"></a></div>
+            <div class="post-details">
+              <div class="post-meta d-flex justify-content-between">
+                <div class="date meta-last"> 发布时间：<span th:text="${#dates.format(article.getArticlePutTime(), 'yyyy/MM/dd HH:mm')}"></span></div>
+                <div class="category comments">阅读量：<span th:text="${article.getArticleViewCount()}"></span></div>
+              </div>
+              <br>
+              <a href="post.html">
+                <h3 class="h4" th:text="${article.getArticleTitle()}"></h3>
+              </a>
+              <p class="text-muted" th:text="${article.getArticleSummary()}"></p>
+            </div>
+          </div>
+        <!-- 可展示三个最新博客 -->
+        </div>
+      </div>
+    </section>
+   
+    <!-- Gallery Section-->
+    <section class="gallery no-padding">    
+      <div class="row">
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="img/gallery-1.jpg" data-fancybox="gallery" class="image"><img src="img/gallery-1.jpg" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="img/gallery-2.jpg" data-fancybox="gallery" class="image"><img src="img/gallery-2.jpg" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="img/gallery-3.jpg" data-fancybox="gallery" class="image"><img src="img/gallery-3.jpg" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="img/gallery-4.jpg" data-fancybox="gallery" class="image"><img src="img/gallery-4.jpg" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+      </div>
+    </section>
+    <!-- Page Footer-->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="logo">
+              <h6 class="text-white">风吟博客</h6>
+            </div>
+            <div class="contact-details">
+              <p>QQ: 626375589</p>
+              <p>Email: 626375589@qq.com</p>            
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="menus d-flex">
+              <ul class="list-unstyled">
+                <li> <a href="/">回到主页</a></li>
+                <li> <a href="#">写博客</a></li>
+                <li> <a href="#">关于</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="copyrights">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>&copy; 2017. Bootstrapious All rights reserved. Your great site.</p>
+                </div>
+                
+              </div>
+            </div>
+        </div>
+      </div>
+      
+      </div>
+    </footer>
+    <!-- JavaScript files-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <script src="vendor/@fancyapps/fancybox/jquery.fancybox.min.js"></script>
+    <script src="js/front.js"></script>
+  </body>
+</html>

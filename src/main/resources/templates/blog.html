@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap Blog - B4 Template by Bootstrap Temple</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom icon font-->
+    <link rel="stylesheet" href="css/fontastic.css">
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Fancybox-->
+    <link rel="stylesheet" href="vendor/@fancyapps/fancybox/jquery.fancybox.min.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="favicon.png">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/">风吟博客</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+              <li class="nav-item">
+                <a class="nav-link" href="/">主页</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/blog">博客</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="post.html">关于</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="请输入你想找的博客" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+            </form>
+          </div>
+        </div>
+
+      </nav>
+    </header>
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="posts-listing col-lg-8"> 
+          <div class="container">
+            <div class="row">
+
+              <!-- post -->
+              <div class="post col-xl-6" th:each="article:${pageInfo.list}">
+                <div class="post-thumbnail"><a th:href="@{'/content/'+${article.getId()}}"><img src="img/blog-post-1.jpeg" alt="..." class="img-fluid"></a></div>
+                <div class="post-details">
+                  <div class="post-meta d-flex justify-content-between">
+                    <div class="date meta-last" th:text="${#dates.format(article.getArticlePutTime(), 'yyyy/MM/dd HH:mm')}">20 May | 2016</div>
+                    <div class="category"><a href="#">Business</a></div>
+                  </div>
+                  <a th:href="@{'/content/'+${article.getId()}}">
+                    <h3 class="h4" th:text="${article.getArticleTitle()}">Alberto Savoia Can Teach You About Interior</h3></a>
+                  <p class="text-muted" th:text="${article.getArticleSummary()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+
+                </div>
+              </div>
+
+
+          </div>
+            </div>
+
+
+
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <!--前一页-->
+              <li class="page-item">
+                <a class="page-link" th:href="@{/blog(page=${(pageInfo.pageNum)-1},size=${pageInfo.pageSize})}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+                <!--点击页数跳转-->
+              </li>
+              <li class="page-item" th:each="i :${#numbers.sequence(pageInfo.getFirstPage(), pageInfo.getLastPage())}">
+                <a class="page-link" th:text="${i}" th:href="@{/blog(page=${i},size=${pageInfo.pageSize})}">1</a>
+              </li>
+              <!--后一页-->
+              <li class="page-item">
+                <a class="page-link" th:href="@{/blog(page=${(pageInfo.pageNum)+1},size=${pageInfo.pageSize})}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </main>
+
+        <aside class="col-lg-4">
+          <!-- Widget [Search Bar Widget]-->
+          <div class="widget search">
+            <header>
+              <h3 class="h6">搜索博文</h3>
+            </header>
+            <form action="#" class="search-form">
+              <div class="form-group">
+                <input type="search" placeholder="输入搜索内容">
+                <button type="submit" class="submit"><i class="icon-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <!-- Widget [Latest Posts Widget]        -->
+          <div class="widget latest-posts">
+            <header>
+              <h3 class="h6">最近发布</h3>
+            </header>
+            <div class="blog-posts">
+              <a th:href="@{'/content/'+${article.getId()}}" th:each="article:${articlesByTime}">
+                <div class="item d-flex align-items-center">
+                  <div class="image"><img src="img/small-thumbnail-1.jpg" alt="..." class="img-fluid"></div>
+                  <div class="title post-details"><strong th:text="${article.getArticleTitle()}">Alberto Savoia Can Teach You About</strong>
+                    <div class="d-flex align-items-center">
+                      <div class="views">发布时间：<span th:text="${#dates.format(article.getArticlePutTime(), 'yyyy/MM/dd HH:mm')}"></span></div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </a>
+
+            </div>
+          </div>
+          <!-- Widget [Categories Widget]-->
+          <div class="widget categories">
+            <header>
+              <h3 class="h6">目录</h3>
+            </header>
+            <div class="item d-flex justify-content-between" th:each="category:${categories}">
+              <a th:href="@{/category(id = ${category.getCategoryId()})}" th:text="${category.getCategoryName()}">Java</a>
+              <span th:text="${category.getArticles().size()}">12</span>
+            </div>
+
+          </div>
+
+          <!-- 标签-->
+          <div class="widget tags">       
+            <header>
+              <h3 class="h6">Tags</h3>
+            </header>
+            <ul class="list-inline">
+              <li class="list-inline-item" th:each="tag : ${tags}">
+                <a th:href="@{/tag(id = ${tag.getTagId()})}" class="tag" th:text="${tag.getTagName()}">#Business</a>
+              </li>
+
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <!-- Page Footer-->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="logo">
+              <h6 class="text-white">风吟博客</h6>
+            </div>
+            <div class="contact-details">
+              <p>QQ: 626375589</p>
+              <p>Email: 626375589@qq.com</p>            
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="menus d-flex">
+              <ul class="list-unstyled">
+                <li> <a href="#">回到主页</a></li>
+                <li> <a href="#">写博客</a></li>
+                <li> <a href="#">友情链接</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="copyrights">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>&copy; 2017. Bootstrapious All rights reserved. Your great site.</p>
+                </div>
+                
+              </div>
+            </div>
+        </div>
+      </div>
+      
+      </div>
+    </footer>
+    <!-- JavaScript files-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <script src="vendor/@fancyapps/fancybox/jquery.fancybox.min.js"></script>
+    <script src="js/front.js"></script>
+  </body>
+</html>
